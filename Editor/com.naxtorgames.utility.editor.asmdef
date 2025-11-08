@@ -1,7 +1,9 @@
 {
     "name": "com.naxtorgames.utility.editor",
     "rootNamespace": "NaxtorGames.Utility.EditorScripts",
-    "references": [],
+    "references": [
+        "GUID:2cfa3af54b1df3746888fa4b8b0cdc63"
+    ],
     "includePlatforms": [
         "Editor"
     ],

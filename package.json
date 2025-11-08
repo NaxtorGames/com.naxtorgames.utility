@@ -1,7 +1,7 @@
 {
   "name": "com.naxtorgames.utility",
   "displayName": "Naxtor Games Utility",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "author": "Naxtor Games",
   "description": "Contains helper and extensions for various of my packages.",
   "dependesncies": {}
