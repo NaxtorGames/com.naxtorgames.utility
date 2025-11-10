@@ -45,14 +45,14 @@ namespace NaxtorGames.Utilities.Components
 
         private void Reset()
         {
-            CollectCollider();
+            CollectColliderSelf();
         }
 
         private void OnDrawGizmosSelected()
         {
             if (_drawSituation == DrawSituationMode.WhenSelected)
             {
-                DrawCollider(false);
+                DrawColliders(false, false);
             }
         }
 
@@ -60,8 +60,7 @@ namespace NaxtorGames.Utilities.Components
         {
             if (_drawSituation == DrawSituationMode.Always)
             {
-                bool drawAsSelected = UnityEditorActions.IsInSelection(this.gameObject);
-                DrawCollider(drawAsSelected);
+                DrawColliders(true, UnityEditorActions.IsInSelection(this.gameObject));
             }
         }
 #endif
@@ -86,7 +85,7 @@ namespace NaxtorGames.Utilities.Components
         }
 
 #if UNITY_EDITOR
-        private void DrawCollider(bool drawAsSelected)
+        private void DrawColliders(bool drawAsSelected, bool highlightAll)
         {
             if (_drawMode == DrawMode.None)
             {
@@ -95,21 +94,29 @@ namespace NaxtorGames.Utilities.Components
 
             foreach (Collider collider in _collider)
             {
-                DrawCollider(collider, drawAsSelected);
+                DrawCollider(collider, drawAsSelected, highlightAll);
             }
         }
 
-        private void DrawCollider(Collider collider, bool drawAsSelected)
+        private void DrawCollider(Collider collider, bool highlightWhenSelected, bool highlightAll)
         {
             if (collider == null)
             {
                 return;
             }
 
-            Gizmos.color = drawAsSelected
-                ? _debugColorSelected : collider.enabled
-                    ? _debugColorEnabled : _debugColorDisabled;
-            Gizmos.matrix = this.transform.localToWorldMatrix;
+            Color gizmoColor;
+            if (highlightAll || (highlightWhenSelected && UnityEditorActions.IsInSelection(collider.gameObject)))
+            {
+                gizmoColor = _debugColorSelected;
+            }
+            else
+            {
+                gizmoColor = collider.enabled ? _debugColorEnabled : _debugColorDisabled;
+            }
+
+            Gizmos.color = gizmoColor;
+            Gizmos.matrix = collider.transform.localToWorldMatrix;
 
             if (collider is SphereCollider sphereCollider)
             {
@@ -163,10 +170,20 @@ namespace NaxtorGames.Utilities.Components
             }
         }
 
-        [ContextMenu("Collect Collider")]
-        private void CollectCollider()
+        [ContextMenu("Collect Collider/On Self")]
+        private void CollectColliderSelf()
         {
+            UnityEditorActions.UndoRecordObject(this, "Collected collider on self");
             this.gameObject.GetComponents<Collider>(_collider);
+            UnityEditorActions.SetDirty(this);
+        }
+
+        [ContextMenu("Collect Collider/Self and Children")]
+        private void CollectColliderSelfAndChildren()
+        {
+            UnityEditorActions.UndoRecordObject(this, "Collected collider on self and in children");
+            this.gameObject.GetComponentsInChildren<Collider>(true, _collider);
+            UnityEditorActions.SetDirty(this);
         }
 
         private static void DrawCapsuleCollider(Vector3 center, float radius, float height, DrawMode drawMode, int capsuleSphereDensity = 1)

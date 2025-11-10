@@ -1,3 +1,14 @@
 {
-	"name": "com.naxtorgames.utility.runtime"
+    "name": "com.naxtorgames.utility.runtime",
+    "rootNamespace": "NaxtorGames.Utilities",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
