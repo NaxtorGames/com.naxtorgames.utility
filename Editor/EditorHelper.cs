@@ -60,14 +60,14 @@ namespace NaxtorGames.Utilities.EditorScripts
             return new SerializedObject(serializingObject);
         }
 
-        public static bool DrawProperty(Object unityObject, string propertyPath, bool includeChildren = false)
+        public static bool DrawProperty(Object unityObject, string propertyPath, bool includeChildren = true)
         {
             SerializedObject serializedObject = GetSerializedObject(unityObject);
 
             return DrawProperty(serializedObject, propertyPath, includeChildren);
         }
 
-        public static bool DrawProperty(SerializedObject serializedObject, string propertyPath, bool includeChildren = false)
+        public static bool DrawProperty(SerializedObject serializedObject, string propertyPath, bool includeChildren = true)
         {
             serializedObject.Update();
             bool state = EditorGUILayout.PropertyField(serializedObject.FindProperty(propertyPath), includeChildren);
@@ -76,7 +76,7 @@ namespace NaxtorGames.Utilities.EditorScripts
             return state;
         }
 
-        public static bool DrawProperty(SerializedProperty serializedProperty, bool includeChildren = false)
+        public static bool DrawProperty(SerializedProperty serializedProperty, bool includeChildren = true)
         {
             return EditorGUILayout.PropertyField(serializedProperty, includeChildren);
         }
