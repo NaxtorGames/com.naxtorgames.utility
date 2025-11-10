@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NaxtorGames.Misc
+namespace NaxtorGames.Utilities.Components
 {
     [AddComponentMenu(Constants.ComponentMenu.Author.MISC + "Simple Follow")]
     public sealed class SimpleFollowMono : MonoBehaviour
